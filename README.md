@@ -1,39 +1,39 @@
-# Generador de Changelogs y Listado de Vídeos con OpenAI Responses API
+# Changelog & Tutorial Video List Generator with OpenAI Responses API
 
-Este script automatiza la generación de dos tipos de changelogs (comercial y técnico) y de un listado de vídeos para tutoriales, a partir del historial de commits entre dos etiquetas Git. Utiliza la API de Responses de OpenAI y muestra indicadores de progreso (spinners) mediante la librería Halo.
+This script automates the creation of two types of changelogs (commercial and technical) and a list of tutorial videos based on the Git commit history between two tags. It uses the OpenAI Responses API and displays progress spinners via the Halo library.
 
 ---
 
-## 🛠️ Requisitos
+## 🛠️ Prerequisites
 
-- Python 3.8 o superior
+- Python 3.8 or higher
 - Git
-- Una cuenta de OpenAI con acceso a la API de Responses
-- Las siguientes librerías de Python:
+- An OpenAI account with access to the Responses API
+- Python packages:
   - `python-dotenv`
-  - `openai` (cliente oficial)
+  - `openai`
   - `halo`
 
 ---
 
-## 📦 Instalación
+## 📦 Installation
 
-1. **Clona este repositorio**
+1. **Clone this repository**
 
    ```bash
-   git clone https://tu-repo.git
-   cd tu-repo
+   git clone https://your-repo.git
+   cd your-repo
+
    ```
 
-
-2. **Crea un entorno virtual**
+2. **Create and activate a virtual environment**
 
    ```bash
    python3 -m venv .venv
    source .venv/bin/activate
    ```
 
-3. **Instala dependencias**
+3. **Install dependencies**
 
    ```bash
    pip install -r requirements.txt
@@ -49,81 +49,85 @@ Este script automatiza la generación de dos tipos de changelogs (comercial y t�
 
 ---
 
-## ⚙️ Configuración
+## ⚙️ Configuration
 
-Crea un archivo `.env` en la raíz del proyecto con las siguientes variables:
+Create a `.env` file in the project root with these variables:
 
 ```dotenv
-OPENAI_API_KEY=tu_api_key_de_openai
-OUTPUT_DIR=/ruta/al/directorio/de/salidas
+OPENAI_API_KEY=your_openai_api_key
+OUTPUT_DIR=/path/to/output/directory
 ```
 
-* `OPENAI_API_KEY`: clave secreta de tu cuenta OpenAI.
-* `OUTPUT_DIR`: ruta donde se crearán las carpetas de cada release.
+- `OPENAI_API_KEY`: Your OpenAI API key.
+- `OUTPUT_DIR`: Where release folders and files will be saved.
 
 ---
 
-## 🚀 Uso
+## 🚀 Usage
 
 ```bash
 ./generate_release.py \
-  --repo-dir /ruta/a/tu/repo \
+  --repo-dir /path/to/your/repo \
   --branch main \
   --from-tag 3.4.2 \
   --to-tag   3.5.1
 ```
 
-* `--repo-dir` : Ruta del repositorio Git.
-* `--branch`   : Nombre de la rama (p. ej. `main`).
-* `--from-tag` : Tag inicial (p. ej. `3.4.2`).
-* `--to-tag`   : Tag final (p. ej. `3.5.1`).
+- `--repo-dir` : Path to the Git repository.
+- `--branch` : Branch name (e.g., `main`).
+- `--from-tag` : Starting tag (e.g., `3.4.2`).
+- `--to-tag` : Ending tag (e.g., `3.5.1`).
 
-Al ejecutarse, el script:
+When run, the script:
 
-1. Carga la configuración y valida que existan `OPENAI_API_KEY` y `OUTPUT_DIR`.
-2. Cambia al directorio del repositorio.
-3. Obtiene el Git log entre los dos tags en la rama indicada.
-4. Crea una carpeta de release en `OUTPUT_DIR`, llamada `release_<to-tag>_<timestamp>`.
-5. Genera:
+1. Loads and verifies `OPENAI_API_KEY` and `OUTPUT_DIR`.
+2. Changes to the specified repository directory.
+3. Retrieves the Git log between the two tags on the given branch.
+4. Creates a release folder in `OUTPUT_DIR` named `release_<to-tag>_<timestamp>`.
+5. Generates:
+   - `CHANGELOG_commercial.md` (customer-facing summary).
+   - `CHANGELOG_technical.md` (detailed developer log).
+   - `video_list.md` (suggested tutorial videos).
 
-   * `CHANGELOG_comercial.md` (resumen accesible para el área comercial).
-   * `CHANGELOG_tecnico.md`   (detallado para el equipo técnico).
-   * `Listado_videos.md`      (sugerencias de vídeos/tutoriales).
-6. Muestra mensajes de éxito o fallo con spinners de Halo.
+6. Displays success or error messages with Halo spinners.
 
 ---
 
-## 📁 Estructura de Salida
+## 📁 Output Structure
 
-Dentro de `OUTPUT_DIR` encontrarás:
+Inside your `OUTPUT_DIR` you will find:
 
 ```
-/ruta/de/salidas/
+/path/to/output/
 └── release_3.5.1_20250805_143210/
-    ├── CHANGELOG_comercial.md
-    ├── CHANGELOG_tecnico.md
-    └── Listado_videos.md
+    ├── CHANGELOG_commercial.md
+    ├── CHANGELOG_technical.md
+    └── video_list.md
 ```
 
-* **CHANGELOG\_comercial.md**: Puntos clave para el equipo de ventas.
-* **CHANGELOG\_tecnico.md**: Detalles de cada commit y su impacto técnico.
-* **Listado\_videos.md**: Lista de vídeos sugeridos para tutoriales.
+- **CHANGELOG_commercial.md**: Key points for sales and customer communication.
+- **CHANGELOG_technical.md**: Commit details and technical impact.
+- **video_list.md**: List of recommended tutorial videos.
 
 ---
 
-## 📝 Ejemplo de CHANGELOG\_comercial.md
+## 📝 Sample `CHANGELOG_commercial.md`
 
 ```markdown
-# Changelog Comercial (v3.4.2 → v3.5.1)
+# Commercial Changelog (v3.4.2 → v3.5.1)
 
-- **Nueva pasarela de pagos**: Ahora los clientes pueden pagar con tarjetas internacionales sin configuraciones adicionales.
-- **Mejoras en el dashboard**: Se han reorganizado los widgets para mostrar métricas clave de un vistazo.
-- **Optimización de carga**: Las páginas principales cargan en un 30 % menos de tiempo, mejorando la experiencia de usuario.
+- **New international payment gateway**: Customers can now pay with global credit cards without extra setup.
+- **Dashboard enhancements**: Widgets reorganized to display key metrics at a glance.
+- **Load time optimization**: Main pages load 30% faster, improving user experience.
 ```
 
 ---
 
-## 🔒 Licencia
+## 🔒 License
 
-Este proyecto está bajo la [MIT License](LICENSE).
-¡Contribuciones y feedback bienvenidos!
+This project is licensed under the [MIT License](LICENSE).
+Contributions and feedback are welcome!
+
+```
+
+```
