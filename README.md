@@ -125,9 +125,5 @@ Inside your `OUTPUT_DIR` you will find:
 
 ## 🔒 License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](LICENSE.txt).
 Contributions and feedback are welcome!
-
-```
-
-```
